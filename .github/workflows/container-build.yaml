@@ -9,6 +9,10 @@ on:
       - .github/**
       - src/**
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
