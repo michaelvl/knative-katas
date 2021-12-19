@@ -10,7 +10,7 @@ msg = os.environ.get('APP_MSG', 'Hello, world!')
 delay = int(os.environ.get('APP_DELAY', 0))
 
 @app.route('/', methods=['POST'])
-def hello_world():
+def main():
     app.logger.warning(request.data)
     data = json.loads(request.data.decode('utf8'))
     response = make_response({
@@ -19,8 +19,8 @@ def hello_world():
     })
     response.headers['Ce-Id'] = str(uuid.uuid4())
     response.headers['Ce-specversion'] = '0.3'
-    response.headers['Ce-Source'] = 'hello-world'
-    response.headers['Ce-Type'] = 'dk.pixelperfekt.hello-world/msg'
+    response.headers['Ce-Source'] = 'knative-simple'
+    response.headers['Ce-Type'] = 'dk.pixelperfekt.knative-simple/msg'
 
     time.sleep(delay)
 
