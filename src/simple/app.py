@@ -6,16 +6,21 @@ import json
 
 app = Flask(__name__)
 
+hostname = os.uname()[1]
 msg = os.environ.get('APP_MSG', 'Hello, world!')
 delay = int(os.environ.get('APP_DELAY', 0))
 
 @app.route('/', methods=['POST'])
 def main():
     app.logger.warning(request.data)
-    data = json.loads(request.data.decode('utf8'))
+    try:
+        data = json.loads(request.data.decode('utf8'))
+    except:
+        data = None
     response = make_response({
         'msg': msg,
-        'input': data
+        'input': data,
+        'hostname': hostname
     })
     response.headers['Ce-Id'] = str(uuid.uuid4())
     response.headers['Ce-specversion'] = '0.3'
