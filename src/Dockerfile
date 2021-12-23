@@ -6,6 +6,6 @@ COPY simple /apps/simple
 RUN cd /apps/simple && npm install
 
 EXPOSE 8080
-WORKDIR /apps
+WORKDIR /apps/simple
 
 CMD [ "npm", "start" ]
