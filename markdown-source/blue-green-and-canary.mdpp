@@ -1,0 +1,175 @@
+!INCLUDE "markdown-source/meta.md"
+[//]: # (Tags: #knative-serving #serving #blue-green #canary)
+
+# Blue/green and Canary Deployments
+
+This exercise will demonstrate how to do blue/green and canary deployments using
+Knative serving.
+
+First, create a Knative service.
+
+```console
+kn service create simple --image ghcr.io/michaelvl/knative-katas --concurrency-limit=1 --env APP_DELAY=1
+```
+
+The example application source can be found [here](src/simple/app.py) and we
+configure the application to simulate a processing delay of 1 second and tell
+Knative serving, that the application is single-threaded.
+
+Next, watch PODs as they are created and destroyed with:
+
+```console
+watch kubectl get po
+```
+
+The newly created POD for the `simple` service will be idle since we are not
+sending any traffic to it. The Knative autoscaler will detect this and scale the
+service to zero PODs after approximately 60 seconds.
+
+Wait until the created POD for the `simple` service is deleted.
+
+Next, execute the following command a few times. On the first invocation you
+will see a POD being created and thus a slightly longer delay on the
+response. After the initial invocation you should see ~1 second response time
+because the application is configured to simulate a processing delay of 1
+second.
+
+```console
+time curl -s -X POST $KATAS_PROTOCOL://simple.$KATAS_NAMESPACE.$KATAS_DOMAIN
+```
+
+Again, after a short time, the `simple` PODs are deleted. If we wanted to, we
+could have specified minimum and maximum autoscaling limits with the
+`--scale-min` and `--scale-max`.
+
+Next, run the following command to generate traffic from 10 clients, with each
+client generating 3000 requests:
+
+```console
+scripts/loader.sh 10 3000 $KATAS_PROTOCOL://simple.$KATAS_NAMESPACE.$KATAS_DOMAIN | stdbuf -oL  jq -r .hostname | src/stats/stats.py
+```
+
+The output from the command will create statistics on which POD responded to the
+requests (because the `jq` part of the command extracts `hostname`, i.e. POD
+name, from the responses), and we should expect to see approximately even
+distribution across all PODs.
+
+## Create a New Revision
+
+Next, we will create a new revision of the application and use a canary pattern
+to test it.  Stop the load generator using Ctrl-C and re-run it with the
+following command, which does statistics on the message returned and since our
+new revision will return a different message, we can see the canary traffic
+splitting in action.
+
+```console
+scripts/loader.sh 10 3000 $KATAS_PROTOCOL://simple.$KATAS_NAMESPACE.$KATAS_DOMAIN | stdbuf -oL  jq -r .msg | src/stats/stats.py
+```
+
+Initially we see 100% of responses using the same message.
+
+By default, Knative sends all traffic to the most recent version (aka. `@latest`
+in Knative terminology). Thus, we configure our service such that the current
+revision get 100% of traffic:
+
+```console
+kn service update simple --traffic simple-00001=100
+kn service describe simple
+```
+
+This changes nothing, since we only have a single revision. Next, we create a
+new revision, that returns a different message:
+
+```console
+kn service update simple --env APP_MSG="Second Revision"
+kn service describe simple
+```
+
+The new revision is not yet configured to receive any traffic. In the output
+from `kn service describe simple` we see this with the `+` in front of the
+revision:
+
+```
+Revisions:  
+     +  simple-00002 (current @latest) [2] (15s)
+        Image:     ghcr.io/michaelvl/knative-katas (pinned to 4b3b38)
+        Replicas:  1/1
+  100%  simple-00001 [1] (1h)
+        Image:     ghcr.io/michaelvl/knative-katas (pinned to 4b3b38)
+        Replicas:  15/15
+```
+
+To send 10% of the traffic to the new version, we need to update our service:
+
+```console
+kn service update simple --traffic simple-00001=90 --traffic simple-00002=10
+kn service describe simple
+```
+
+After this, we will see in the load generator statistics, that approximately 10%
+of the traffic is routed to the new revision. I.e. this is a canary pattern
+release of a new version.
+
+## Tagged Revisions Can be Accessed Directly
+
+Next we create two new revisions.
+
+```console
+kn service update simple --env APP_MSG="Third Revision"
+kn service update simple --env APP_MSG="Fourth Revision"
+kn service describe simple
+```
+
+The output from `service describe` illustrate, that only the latest revision
+(note tag `@latest` in the output) and revisions receiving traffic are
+shown. This is because there could potentially be many revisions and to keep the
+output of `service describe` compact.
+
+List revisions to get the full picture of revisions:
+
+```console
+kn revision list
+```
+
+We can assign tags to revisions, e.g. use the following command to tag the most
+recent revision with a `test` tag. Tags can be seen in the `service describe`
+output prefixed with a `#`.
+
+```console
+kn service update simple --tag @latest=test
+kn service describe simple
+```
+
+Traffic is distributed to revisions based on the traffic split percentages we
+defined previously, however, tagged revisions are individually
+addressable. Tagged versions will be assigned their own URL based on the name
+format:
+
+```
+<tag>-<serviceName>.<namespace>.<domain>
+```
+
+Use the following command to see domains assigned to revisions:
+
+```console
+kn route describe simple
+```
+
+Note, that only a single tag can be assigned to a revision.
+
+Next, use the following command to address the tagger revsion:
+
+```console
+time curl -s -X POST $KATAS_PROTOCOL://test-simple.$KATAS_NAMESPACE.$KATAS_DOMAIN
+```
+
+Notice also, that the statistics output from the load generator only shows
+traffic from the revisions for which we defined the traffic split, i.e. the
+third and fourth revisions are not 'publicly' accessible. This is a blue/green
+deployment pattern.
+
+## Cleanup
+
+```console
+kn service delete simple
+```

@@ -2,11 +2,11 @@
 
 import curses
 import fileinput
-import time
+import time, datetime
 
 use_ncurses = True
 
-def show_data(stdscr, data):
+def show_data(stdscr, data, start):
     if use_ncurses:
         height, width = stdscr.getmaxyx()
         stdscr.clear()
@@ -15,8 +15,9 @@ def show_data(stdscr, data):
         print('-'*40)
 
     ln = 0
-    total_cnt = 0.0
+    total_cnt = 0
     max_val = 0
+    now = datetime.datetime.now()
     for k in data.keys():
         v = data[k]
         if v > max_val:
@@ -34,17 +35,24 @@ def show_data(stdscr, data):
         v = data[k]
         pcnt = 100.0*v/float(total_cnt)
         bar_rel = float(v)/max_val
-        bar = ':'*int((width-50)*bar_rel)
-        output('{:4.1f}% {:40} {}'.format(pcnt, k, bar), ln)
+        bar = ':'*int((width-54)*bar_rel)
+        output('{:4.1f}% {:4} {:40} {}'.format(pcnt, v, k, bar), ln)
         ln += 1
-    output('{} requests'.format(total_cnt), ln)
+    output('{} requests, {:.1f} requests/s, {} buckets.'.format(total_cnt, (now-start).total_seconds(), ln), ln)
 
 def read_input(stdscr):
-    data = {}
+    start = None
     for line in fileinput.input():
+        if not start:
+            start = datetime.datetime.now()
+            data = {}
         line = line.rstrip()
         data[line] = data.get(line, 0) + 1
-        show_data(stdscr, data)
+        show_data(stdscr, data, start)
+        now = datetime.datetime.now()
+        window = (now-start).total_seconds()
+        if window > 30:  # Restart statistics window
+            start = None
     time.sleep(100)
 
 if __name__ == "__main__":
