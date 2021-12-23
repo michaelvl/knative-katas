@@ -15,4 +15,8 @@ exercises: $(exercisemd)
 	docker run --rm -it --user $(shell id -u):$(shell id -g) -v $(shell pwd):/work michaelvl/markdown-pp $< -o $@
 	chmod u-w $@
 
+.PHONY: build
+build:
+	docker build -t knative-simple -f src/Dockerfile src
+
 -include Makefile.local

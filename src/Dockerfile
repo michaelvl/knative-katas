@@ -1,16 +1,11 @@
-FROM docker.io/python:alpine3.15
+FROM node:16.4.2-alpine3.12
 
-RUN pip install --upgrade pip
+RUN mkdir -p /apps/simple
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . /apps
-
-WORKDIR /apps
+COPY simple /apps/simple
+RUN cd /apps/simple && npm install
 
 EXPOSE 8080
+WORKDIR /apps
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "simple/app.py" ]
+CMD [ "npm", "start" ]
