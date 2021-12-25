@@ -6,11 +6,9 @@
    "watch": {
       "start": {
          "patterns": [
-            "src",
-            "src/views",
-            "src/static"
+            "src"
          ],
-         "extensions": "js,html,css"
+         "extensions": "js"
       }
    },
    "scripts": {
