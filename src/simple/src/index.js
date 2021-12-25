@@ -12,21 +12,28 @@ const port = process.env.PORT || 8080;
 const app = express();
 app.use(express.json());
 
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
 app.post('/', (req, res) => {
     try {
-	let event = HTTP.toEvent({ headers: req.headers, body: req.body })
-	console.log('Event version: ', event.specversion, 'type: ', event.type);
-	console.log('Data: ', event.data);
-	response = {
+        let event = HTTP.toEvent({ headers: req.headers, body: req.body })
+        console.log('Event version: ', event.specversion, 'type: ', event.type);
+        console.log('Data: ', event.data);
+        response = {
             'msg': msg,
             'input': event,
             hostname
-	}
-	res.status(200).send(response);
-	
+        }
+        sleep(delay);
+        res.status(200).send(response);
+
     } catch(err) {
-	console.error('Error', err);
-	res.status(415)
+        console.error('Error', err);
+        res.status(415)
             .header("Content-Type", "application/json")
             .send(JSON.stringify(err));
     }

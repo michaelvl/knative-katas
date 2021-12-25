@@ -12,6 +12,12 @@ First, create a Knative service.
 kn service create simple --image ghcr.io/michaelvl/knative-katas --concurrency-limit=1 --env APP_DELAY=1
 ```
 
+This creates the service using the `kn` tool. Alternatively you could create the
+Knative service using the file `deploy/simple-service.yaml`, which looks like
+this:
+
+!INCLUDECODE "deploy/simple-service.yaml" (yaml)
+
 The example application source can be found [here](src/simple/app.py) and we
 configure the application to simulate a processing delay of 1 second and tell
 Knative serving, that the application is single-threaded.
@@ -35,7 +41,7 @@ because the application is configured to simulate a processing delay of 1
 second.
 
 ```console
-time curl -s -X POST $KATAS_PROTOCOL://simple.$KATAS_NAMESPACE.$KATAS_DOMAIN
+time curl -s -X POST -H "content-type: application/json" -H "ce-specversion: 1.0" -H "ce-source: curl" -H "ce-type: example" -H "ce-id: 123456-123456" $KATAS_PROTOCOL://simple.$KATAS_NAMESPACE.$KATAS_DOMAIN | jq .
 ```
 
 Again, after a short time, the `simple` PODs are deleted. If we wanted to, we
