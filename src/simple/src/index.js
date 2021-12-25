@@ -28,8 +28,9 @@ app.post('/', (req, res) => {
             'input': event,
             hostname
         }
-        sleep(delay);
-        res.status(200).send(response);
+        sleep(delay).then(() => {
+            res.status(200).send(response);
+	});
 
     } catch(err) {
         console.error('Error', err);
