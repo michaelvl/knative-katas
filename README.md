@@ -30,3 +30,8 @@ alias kn='scripts/kn.sh'
 - Configuring and Optimizing Autoscaling
 
 ### Knative Eventing
+
+- [Source to Sink](source-to-sink.md)
+- Channels and Subscriptions
+- Flows
+- Event Tracing
