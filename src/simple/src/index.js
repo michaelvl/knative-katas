@@ -1,4 +1,5 @@
 const os = require('os');
+const process = require('process');
 const express = require('express');
 const { HTTP } = require('cloudevents');
 const bodyParser = require('body-parser')
@@ -12,6 +13,11 @@ const port = process.env.PORT || 8080;
 const app = express();
 app.use(express.json());
 
+process.on('SIGTERM', () => {
+    console.info("Interrupted")
+    process.exit(0)
+})
+
 function sleep(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
@@ -21,8 +27,8 @@ function sleep(ms) {
 app.post('/', (req, res) => {
     try {
         let event = HTTP.toEvent({ headers: req.headers, body: req.body })
-        console.log('Event version: ', event.specversion, 'type: ', event.type);
-        console.log('Data: ', event.data);
+        console.log('Event version:', event.specversion, 'type:', event.type, 'id:', event.id);
+        console.log('Data:', event.data);
         response = {
             'msg': msg,
             'input': event,
