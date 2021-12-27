@@ -34,7 +34,7 @@ alias stern=scripts/stern.sh
 ### Knative Eventing
 
 - [Source to Sink](source-to-sink.md)
-- [WIP: Custom Sources](custom-sources.md)
+- [Custom Sources](custom-sources.md)
 - Channels and Subscriptions
 - Brokers and Triggers
 - Flows and Sequences
