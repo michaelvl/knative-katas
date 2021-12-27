@@ -1,0 +1,14 @@
+apiVersion: sources.knative.dev/v1
+kind: SinkBinding
+metadata:
+  name: bind-deployment
+spec:
+  subject:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: deployment-event-emitter
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: simple

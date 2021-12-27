@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-event-emitter
+spec:
+  selector:
+    matchLabels:
+      app: event-emitter
+  template:
+    metadata:
+      labels:
+        app: event-emitter
+    spec:
+      containers:
+      - image: ghcr.io/michaelvl/knative-katas:sha-c1b147a
+        name: event-emitter
+        workingDir: /apps/event-emitter
+        env:
+         - name: APP_DATA
+           value : '{"msg": "Hello from deployment-based source!"}'

@@ -1,0 +1,18 @@
+apiVersion: sources.knative.dev/v1
+kind: ContainerSource
+metadata:
+  name: event-emitter
+spec:
+  template:
+    spec:
+      containers:
+      - image: ghcr.io/michaelvl/knative-katas:sha-c1b147a
+        workingDir: /apps/event-emitter
+        env:
+         - name: APP_DATA
+           value : '{"msg": "Hello from container source!"}'
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: simple

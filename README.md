@@ -14,11 +14,13 @@ export KATAS_PROTOCOL=https
 export KATAS_NAMESPACE=default
 ```
 
-Exercises are build around the `kn` tool. You can either install this locally,
-or use the script in this repository for a container-based solution:
+Some of the exercises make use of the `kn` and `stern` tools. You can either
+install these locally, or use the scripts in this repository for container-based
+solutions:
 
 ```console
 alias kn='scripts/kn.sh'
+alias stern=scripts/stern.sh
 ```
 
 ## Exercises
@@ -32,6 +34,9 @@ alias kn='scripts/kn.sh'
 ### Knative Eventing
 
 - [Source to Sink](source-to-sink.md)
+- [WIP: Custom Sources](custom-sources.md)
 - Channels and Subscriptions
-- Flows
+- Brokers and Triggers
+- Flows and Sequences
 - Event Tracing
+- Third Party Sources
