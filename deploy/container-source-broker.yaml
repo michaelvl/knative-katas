@@ -1,0 +1,20 @@
+apiVersion: sources.knative.dev/v1
+kind: ContainerSource
+metadata:
+  name: event-emitter
+spec:
+  template:
+    spec:
+      containers:
+      - image: ghcr.io/michaelvl/knative-katas:sha-c1b147a
+        workingDir: /apps/event-emitter
+        env:
+         - name: APP_DATA
+           value : '{"msg": "Hello from container source through broker!"}'
+         - name: APP_CRON_SCHEDULE
+           value : '*/5 * * * * *'
+  sink:
+    ref:
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: broker-a

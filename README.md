@@ -36,7 +36,7 @@ alias stern=scripts/stern.sh
 - [Source to Sink](source-to-sink.md)
 - [Custom Sources](custom-sources.md)
 - Channels and Subscriptions
-- Brokers and Triggers
+- [WIP: Brokers and Triggers](brokers-and-triggers.md)
 - Flows and Sequences
 - Event Tracing
 - Third Party Sources

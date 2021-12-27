@@ -19,7 +19,7 @@ kubectl apply -f deploy/simple-service.yaml
 Observe the log output from the event receiver:
 
 ```console
-stern "simple*" -c user-container
+stern "simple-.*" -c user-container
 ```
 
 Test the event receiver by sending an event to it:

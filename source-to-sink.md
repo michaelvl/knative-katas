@@ -22,7 +22,7 @@ the receiver. When we send events to the service, they will be shown in the
 logs.
 
 ```console
-stern "simple*" -c user-container
+stern "simple-.*" -c user-container
 ```
 
 Test the deployed service by sending a single event to it. The input event data
