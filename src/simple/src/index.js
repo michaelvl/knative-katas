@@ -10,6 +10,9 @@ const msg = process.env.APP_MSG || 'Hello, world!';
 const delay = process.env.APP_DELAY || 0;
 const port = process.env.PORT || 8080;
 const http_status_code = process.env.APP_HTTP_STATUS_CODE || 200;
+const discard_response = process.env.APP_DISCARD_RESPONSE;
+
+console.log('xxx', discard_response)
 
 const app = express();
 app.use(express.json());
@@ -30,11 +33,15 @@ app.post('/', (req, res) => {
         let event = HTTP.toEvent({ headers: req.headers, body: req.body })
         console.log('Event version:', event.specversion, 'type:', event.type, 'id:', event.id);
         console.log('Data:', event.data);
-        response = {
-            'msg': msg,
-            'input': event,
-            hostname
-        }
+	if (discard_response) {
+	    response = null
+	} else {
+            response = {
+		'msg': msg,
+		'input': event,
+		hostname
+            }
+	}
         sleep(delay).then(() => {
             res.status(http_status_code).send(response);
 	});
