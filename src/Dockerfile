@@ -5,7 +5,7 @@ RUN mkdir -p /apps/simple /apps/event-emitter
 COPY simple /apps/simple
 RUN cd /apps/simple && npm install
 
-COPY simple /apps/event-emitter
+COPY event-emitter /apps/event-emitter
 RUN cd /apps/event-emitter && npm install
 
 EXPOSE 8080
