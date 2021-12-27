@@ -8,6 +8,7 @@ on:
     paths:
       - .github/**
       - src/simple/**
+      - src/event-emitter/**
 
 permissions:
   contents: read
