@@ -9,6 +9,7 @@ const hostname = os.hostname();
 const msg = process.env.APP_MSG || 'Hello, world!';
 const delay = process.env.APP_DELAY || 0;
 const port = process.env.PORT || 8080;
+const http_status_code = process.env.APP_HTTP_STATUS_CODE || 200;
 
 const app = express();
 app.use(express.json());
@@ -35,7 +36,7 @@ app.post('/', (req, res) => {
             hostname
         }
         sleep(delay).then(() => {
-            res.status(200).send(response);
+            res.status(http_status_code).send(response);
 	});
 
     } catch(err) {
