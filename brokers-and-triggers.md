@@ -8,7 +8,8 @@ This exercise demonstrates Knative eventing brokers and triggers. These are the
 basic components used to build a message bus for event distribution and define
 filtering on which events applications should receive.
 
-A Knative `Broker` is defined 
+A basic Knative `Broker` (basically a message bus) can be defined with the
+following resource manifest:
 
 ```yaml
 apiVersion: eventing.knative.dev/v1
@@ -18,9 +19,14 @@ metadata:
 
 ```
 
+Create the broker:
+
 ```console
 kubectl apply -f deploy/broker.yaml
 ```
+
+Next we create a source which forwards events to the broker, i.e. the sink of
+this source is the broker:
 
 ```yaml
 apiVersion: sources.knative.dev/v1
@@ -31,7 +37,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-e50d02a
+      - image: ghcr.io/michaelvl/knative-katas:sha-4345057
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA
@@ -46,16 +52,21 @@ spec:
 
 ```
 
+Create the source:
+
 ```console
 kubectl apply -f deploy/container-source-broker.yaml
 ```
+
+Next we create a service which are intended to receive events:
 
 ```console
 kubectl apply -f deploy/simple-service.yaml
 ```
 
-The source will emit an event every 5 seconds, however, if we observe logs from
-the `simple` service, we do not yet see any events:
+The source will emit an event every 5 seconds, however (try using `kubectl logs
+-f` on the `event-emitter-deployment-xxx` POD), if we observe logs from the
+`simple` service, we do not yet see any events:
 
 ```console
 stern "simple-.*" -c user-container
@@ -82,30 +93,68 @@ spec:
 
 ```
 
-
+Deploy the trigger:
 
 ```console
 kubectl apply -f deploy/trigger.yaml
 ```
 
+After this we observe the events in the `stern` log output.
+
+Next, try changing the value of `spec.filter.attributes.type` in the event
+filter using:
+
+```console
+KUBE_EDITOR=nano kubectl edit trigger trigger1
+```
+
+If you change it to anything else, the `simple` service stops receiving events.
+
+Knative filters are **exact match only**. If multiple attributes are defined in
+the filter, these conditions are AND'en, i.e. they must all match for an event
+to be forwarded. OR'en filter values require multiple filter definitions.
 
 ## One to Many Distribution
+
+The broker will forward events to any service that have a filter for the given event.
+
+Restore the filter for the first `simple` service:
+
+```console
+kubectl apply -f deploy/trigger.yaml
+```
+
+Create an additional service:
 
 ```console
 kubectl apply -f deploy/simple-service2.yaml
 ```
 
+and monitor its logs:
+
 ```console
 stern "simple2-.*" -c user-container
 ```
+
+and create a filter
 
 ```console
 kubectl apply -f deploy/trigger2.yaml
 ```
 
+You will now see the same event being delivered to both services.
 
+As an interesting setup, try editing `trigger2` and change the sink from service
+`simple2` to `simple`, i.e. create two triggers both having the `simple` service
+as the sink:
 
+```console
+KUBE_EDITOR=nano kubectl edit trigger trigger2
+```
 
+This has the effect of sending the same event twice to the `simple` service and
+this is a consequence of the `filter` resource resulting in two Knative eventing
+channel subscriptions.
 
 ## Cleanup
 

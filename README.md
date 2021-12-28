@@ -36,7 +36,7 @@ alias stern=scripts/stern.sh
 - [Source to Sink](source-to-sink.md)
 - [Custom Sources](custom-sources.md)
 - Channels and Subscriptions
-- [WIP: Brokers and Triggers](brokers-and-triggers.md)
+- [Brokers and Triggers](brokers-and-triggers.md)
 - Flows, Sequences and Parallels
 - [WIP: Delivery Errors - Dead Letter Sinks](delivery-errors.md)
 
