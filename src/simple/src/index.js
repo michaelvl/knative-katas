@@ -12,8 +12,6 @@ const port = process.env.PORT || 8080;
 const http_status_code = process.env.APP_HTTP_STATUS_CODE || 200;
 const discard_response = process.env.APP_DISCARD_RESPONSE;
 
-console.log('xxx', discard_response)
-
 const app = express();
 app.use(express.json());
 
