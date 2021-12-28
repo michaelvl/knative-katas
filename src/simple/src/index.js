@@ -44,7 +44,7 @@ app.post('/', (req, res) => {
 
         sleep(delay).then(() => {
 	    if (discard_response) {
-		res.status(http_status_code);
+		res.status(http_status_code).send();
 	    } else {
 		res.set(message.headers)
 		res.status(http_status_code).send(message.body);
