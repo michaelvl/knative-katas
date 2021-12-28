@@ -32,6 +32,28 @@ Observe the received events using `stern`:
 stern "simple-.*" -c user-container
 ```
 
+### Add Dead Letter Sink
+
+Next, we add a sink where un-deliverable events will be delivered:
+
+```console
+kubectl apply -f deploy/dead-letter-sink.yaml
+```
+
+We observe the output from this sink - initially we expect no events:
+
+```console
+stern "dead-letter-.*" -c user-container
+```
+
+And we update the broker configuration with delivery information:
+
+!INCLUDECODE "deploy/broker-dead-letter.yaml" (yaml)
+
+```console
+kubectl apply -f deploy/broker-dead-letter.yaml
+```
+
 ### Introduce Delivery Errors
 
 Initially the service responds to events using HTTP status code 200 (this is
@@ -50,22 +72,9 @@ KUBE_EDITOR=nano kubectl edit service.serving simple
 After this, the service POD(s) will be recreated and the log output will still
 show the received event.
 
-
-
-
-```console
-kubectl apply -f deploy/dead-letter-sink.yaml
-```
-
-```console
-stern "dead-letter-.*" -c user-container
-```
-
-!INCLUDECODE "deploy/broker-dead-letter.yaml" (yaml)
-
-```console
-kubectl apply -f deploy/broker-dead-letter.yaml
-```
+However, since the `simple` service now returns an error when receiving the
+event, the broker will forward the event to the dead-letter-sink and we should
+be able to observe this in the `stern` log output.
 
 Now, edit the `simple` service again and change the `APP_HTTP_STATUS_CODE`
 environment variable back to `200`. After this, the dead-letter service will no

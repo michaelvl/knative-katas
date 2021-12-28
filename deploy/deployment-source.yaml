@@ -12,7 +12,7 @@ spec:
         app: event-emitter
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-c1b147a
+      - image: ghcr.io/michaelvl/knative-katas:sha-4345057
         name: event-emitter
         workingDir: /apps/event-emitter
         env:
