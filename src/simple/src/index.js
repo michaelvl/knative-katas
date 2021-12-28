@@ -1,7 +1,7 @@
 const os = require('os');
 const process = require('process');
 const express = require('express');
-const { HTTP } = require('cloudevents');
+const { HTTP, CloudEvent } = require('cloudevents');
 const bodyParser = require('body-parser')
 
 const hostname = os.hostname();
@@ -31,17 +31,23 @@ app.post('/', (req, res) => {
         let event = HTTP.toEvent({ headers: req.headers, body: req.body })
         console.log('Event version:', event.specversion, 'type:', event.type, 'id:', event.id);
         console.log('Data:', event.data);
-	if (discard_response) {
-	    response = null
-	} else {
-            response = {
-		'msg': msg,
-		'input': event,
-		hostname
-            }
-	}
+
+        data = {
+	    'msg': msg,
+	    'input': event,
+	    hostname
+        }
+
+	const ce = new CloudEvent({ type: 'type-example', source: 'source-simple-example', data });
+	const message = HTTP.binary(ce); // Or HTTP.structured(ce)
+
         sleep(delay).then(() => {
-            res.status(http_status_code).send(response);
+	    if (discard_response) {
+		res.status(http_status_code);
+	    } else {
+		res.set(message.headers)
+		res.status(http_status_code).send(message.body);
+	    }
 	});
 
     } catch(err) {
