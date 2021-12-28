@@ -22,7 +22,7 @@ to the service:
 ```console
 kubectl apply -f deploy/broker.yaml
 kubectl apply -f deploy/container-source-broker.yaml
-kubectl apply -f deploy/simple-service-no-reponse.yaml
+kubectl apply -f deploy/simple-service-no-response.yaml
 kubectl apply -f deploy/trigger.yaml
 ```
 
@@ -36,7 +36,7 @@ stern "simple-.*" -c user-container
 
 Initially the service responds to events using HTTP status code 200 (this is
 configured with the `APP_HTTP_STATUS_CODE` environment variable in
-`deploy/simple-service-no-reponse.yaml`).
+`deploy/simple-service-no-response.yaml`).
 
 > The service also configures the application to discard the JSON response body. Services are allowed to return events, but these must be valid cloudevents. The 'plain JSON' of the example service is not a fully valid cloudevent and returning this would be considered as a delivery error.
 
