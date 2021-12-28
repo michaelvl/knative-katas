@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-4345057
+      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA

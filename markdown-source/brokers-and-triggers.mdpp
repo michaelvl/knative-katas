@@ -32,7 +32,7 @@ kubectl apply -f deploy/container-source-broker.yaml
 Next we create a service which are intended to receive events:
 
 ```console
-kubectl apply -f deploy/simple-service.yaml
+kubectl apply -f deploy/simple-service-no-response.yaml
 ```
 
 The source will emit an event every 5 seconds, however (try using `kubectl logs
@@ -63,17 +63,19 @@ filter using:
 KUBE_EDITOR=nano kubectl edit trigger trigger1
 ```
 
-If you change it to anything else, the `simple` service stops receiving events.
+If you change it to anything else than its current value, the `simple` service
+stops receiving events.
 
 Knative filters are **exact match only**. If multiple attributes are defined in
-the filter, these conditions are AND'en, i.e. they must all match for an event
-to be forwarded. OR'en filter values require multiple filter definitions.
+the filter, these conditions are **AND'ed**, i.e. they must all match for an
+event to be forwarded. Logical OR of filter values require multiple trigger
+definitions.
 
 ## One to Many Distribution
 
 The broker will forward events to any service that have a filter for the given event.
 
-Restore the filter for the first `simple` service:
+Restore the trigger/filter for the first `simple` service:
 
 ```console
 kubectl apply -f deploy/trigger.yaml
@@ -82,7 +84,7 @@ kubectl apply -f deploy/trigger.yaml
 Create an additional service:
 
 ```console
-kubectl apply -f deploy/simple-service2.yaml
+kubectl apply -f deploy/simple2-service-response-type2.yaml
 ```
 
 and monitor its logs:
@@ -110,6 +112,37 @@ KUBE_EDITOR=nano kubectl edit trigger trigger2
 This has the effect of sending the same event twice to the `simple` service and
 this is a consequence of the `filter` resource resulting in two Knative eventing
 channel subscriptions.
+
+### Responding with Event
+
+Our source generate event of type `type-example` and both our trigger filters
+are configured for this event type. However, the service `simple2` responds to
+events with a new event in the response to the HTTP POST message. This event is
+of type `type-example2`. If we update our filter for the `simple` service we can
+build the following chain of event processing with the broker being our central
+message bus:
+
+```
+Source ---> broker ---> simple2-service ---> broker ---> simple-service
+```
+
+Restore `trigger2` to remove any edits done above:
+
+```console
+kubectl apply -f deploy/trigger2.yaml
+```
+
+and edit the filter in the trigger for `simple` - change
+`spec.filter.attributes.type` value from `type-example` to `type-example2`:
+
+```console
+KUBE_EDITOR=nano kubectl edit trigger trigger1
+```
+
+The fact, that the `simple` service now receives an event from `simple2` can be
+seen from the event type logged by `simple` and also from the slight delay
+between the `stern` log output from `simple2` to `simple` (service `simple2` is
+configured with 1 second simulated processing delay).
 
 ## Cleanup
 

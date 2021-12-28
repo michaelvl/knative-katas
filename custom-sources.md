@@ -46,7 +46,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-c1b147a
+      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA
@@ -105,7 +105,7 @@ spec:
         app: event-emitter
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-c1b147a
+      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
         name: event-emitter
         workingDir: /apps/event-emitter
         env:

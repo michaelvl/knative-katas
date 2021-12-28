@@ -6,4 +6,4 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-4345057
+      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
