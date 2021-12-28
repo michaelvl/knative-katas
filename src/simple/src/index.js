@@ -11,6 +11,7 @@ const delay = process.env.APP_DELAY || 0;
 const port = process.env.PORT || 8080;
 const http_status_code = process.env.APP_HTTP_STATUS_CODE || 200;
 const event_resp_type = process.env.APP_EVENT_RESPONSE_TYPE || 'type-example';
+const event_resp_source = process.env.APP_EVENT_RESPONSE_SOURCE || 'simple-example';
 const discard_response = process.env.APP_DISCARD_RESPONSE;
 
 const app = express();
@@ -39,13 +40,15 @@ app.post('/', (req, res) => {
 	    hostname
         }
 
-	const ce = new CloudEvent({ type: event_resp_type, source: 'source-simple-example', data });
+	const ce = new CloudEvent({ type: event_resp_type, source: event_resp_source, data });
 	const message = HTTP.binary(ce); // Or HTTP.structured(ce)
 
         sleep(delay).then(() => {
 	    if (discard_response) {
+		console.log('Reponding with HTTP', http_status_code);
 		res.status(http_status_code).send();
 	    } else {
+		console.log('Reponding with HTTP', http_status_code, 'event type', event_resp_type);
 		res.set(message.headers)
 		res.status(http_status_code).send(message.body);
 	    }
