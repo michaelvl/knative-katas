@@ -10,6 +10,7 @@ const msg = process.env.APP_MSG || 'Hello, world!';
 const delay = process.env.APP_DELAY || 0;
 const port = process.env.PORT || 8080;
 const http_status_code = process.env.APP_HTTP_STATUS_CODE || 200;
+const event_resp_type = process.env.APP_EVENT_RESPONSE_TYPE || 'type-example';
 const discard_response = process.env.APP_DISCARD_RESPONSE;
 
 const app = express();
@@ -38,7 +39,7 @@ app.post('/', (req, res) => {
 	    hostname
         }
 
-	const ce = new CloudEvent({ type: 'type-example', source: 'source-simple-example', data });
+	const ce = new CloudEvent({ type: event_resp_type, source: 'source-simple-example', data });
 	const message = HTTP.binary(ce); // Or HTTP.structured(ce)
 
         sleep(delay).then(() => {
