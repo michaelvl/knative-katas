@@ -37,6 +37,12 @@ alias stern=scripts/stern.sh
 - [Custom Sources](custom-sources.md)
 - Channels and Subscriptions
 - [WIP: Brokers and Triggers](brokers-and-triggers.md)
-- Flows and Sequences
-- Event Tracing
+- Flows, Sequences and Parallels
+- [WIP: Delivery Errors - Dead Letter Sinks](delivery-errors.md)
+
+### Third Party Integrations
+
 - Third Party Sources
+- Metrics with Prometheus and Grafana
+- Event Tracing with Jaeger
+- Apache Camel-K

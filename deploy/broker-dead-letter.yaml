@@ -1,0 +1,11 @@
+apiVersion: eventing.knative.dev/v1
+kind: Broker
+metadata:
+  name: broker-a
+spec:
+  delivery:
+    deadLetterSink:
+      ref:
+        apiVersion: serving.knative.dev/v1
+        kind: Service
+        name: dead-letter-sink

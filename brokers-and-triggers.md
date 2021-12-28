@@ -1,8 +1,14 @@
 [//]: # (Copyright, Michael Vittrup Larsen)
 [//]: # (Origin: https://github.com/MichaelVL/knative-katas)
-[//]: # (Tags: #knative-eventing #brokers #triggers)
+[//]: # (Tags: #knative-eventing #brokers #triggers #dead-letter #dead-letter-sink)
 
 # Brokers and Triggers
+
+This exercise demonstrates Knative eventing brokers and triggers. These are the
+basic components used to build a message bus for event distribution and define
+filtering on which events applications should receive.
+
+A Knative `Broker` is defined 
 
 ```yaml
 apiVersion: eventing.knative.dev/v1
@@ -25,7 +31,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-c1b147a
+      - image: ghcr.io/michaelvl/knative-katas:sha-e50d02a
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA
@@ -73,6 +79,7 @@ spec:
       apiVersion: serving.knative.dev/v1
       kind: Service
       name: simple
+
 ```
 
 
@@ -97,9 +104,16 @@ kubectl apply -f deploy/trigger2.yaml
 ```
 
 
+
+
+
 ## Cleanup
 
 ```console
+kubectl delete -f deploy/trigger.yaml
+kubectl delete -f deploy/trigger2.yaml
+kubectl delete -f deploy/simple-service.yaml
+kubectl delete -f deploy/simple-service2.yaml
 kubectl delete -f deploy/container-source-broker.yaml
 kubectl delete -f deploy/broker.yaml
 ```

@@ -1,0 +1,9 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: dead-letter-sink
+spec:
+  template:
+    spec:
+      containers:
+      - image: ghcr.io/michaelvl/knative-katas:sha-e50d02a

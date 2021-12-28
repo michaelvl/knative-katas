@@ -1,7 +1,13 @@
 !INCLUDE "markdown-source/meta.md"
-[//]: # (Tags: #knative-eventing #brokers #triggers)
+[//]: # (Tags: #knative-eventing #brokers #triggers #dead-letter #dead-letter-sink)
 
 # Brokers and Triggers
+
+This exercise demonstrates Knative eventing brokers and triggers. These are the
+basic components used to build a message bus for event distribution and define
+filtering on which events applications should receive.
+
+A Knative `Broker` is defined 
 
 !INCLUDECODE "deploy/broker.yaml" (yaml)
 
@@ -51,6 +57,9 @@ stern "simple2-.*" -c user-container
 ```console
 kubectl apply -f deploy/trigger2.yaml
 ```
+
+
+
 
 
 ## Cleanup
