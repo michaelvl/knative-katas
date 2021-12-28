@@ -16,10 +16,10 @@ process.on('SIGTERM', () => {
 })
 
 cron.schedule(cron_schedule, () => {
-    console.log('Sending event');
     const ce = new CloudEvent({ type: 'type-example', source: 'source-example', data });
     const message = HTTP.binary(ce); // Or HTTP.structured(ce)
 
+    console.log('Sending event', ce.id);
     axios({
 	method: "post",
 	url: sink_url,
