@@ -9,6 +9,7 @@ on:
       - .github/**
       - src/simple/**
       - src/event-emitter/**
+      - src/filter/**
 
 permissions:
   contents: read
