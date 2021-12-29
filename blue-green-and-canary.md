@@ -14,7 +14,7 @@ kn service create simple --image ghcr.io/michaelvl/knative-katas --concurrency-l
 ```
 
 This creates the service using the `kn` tool. Alternatively you could create the
-Knative service using the file `deploy/simple-service.yaml`, which looks like
+Knative service using the file `deploy/simple-service-with-delay.yaml`, which looks like
 this:
 
 ```yaml
@@ -27,7 +27,7 @@ spec:
     spec:
       containerConcurrency: 1
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
+      - image: ghcr.io/michaelvl/knative-katas@sha256:eb09ef8d1f5124c1e2348f4d4eeca8075b83e44f7c5157ea68c6c656f223dc98
         env:
          - name: APP_DELAY
            value : "1000"

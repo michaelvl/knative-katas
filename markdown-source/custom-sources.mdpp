@@ -13,7 +13,7 @@ Knative sinks. The following sections describe how these work.
 To demonstrate `ContainerSource` and `SinkBinding` we setup an event receiver:
 
 ```console
-kubectl apply -f deploy/simple-service.yaml
+kubectl apply -f deploy/simple-service-with-delay.yaml
 ```
 
 Observe the log output from the event receiver:
@@ -117,7 +117,7 @@ management of the source, sink and binding between these.
 ## Cleanup
 
 ```console
-kubectl delete -f deploy/simple-service.yaml
+kubectl delete -f deploy/simple-service-with-delay.yaml
 kubectl delete -f deploy/container-source.yaml
 kubectl delete -f deploy/deployment-source.yaml
 kubectl delete -f deploy/sink-binding.yaml

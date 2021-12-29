@@ -37,7 +37,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
+      - image: ghcr.io/michaelvl/knative-katas@sha256:eb09ef8d1f5124c1e2348f4d4eeca8075b83e44f7c5157ea68c6c656f223dc98
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA
@@ -194,7 +194,7 @@ configured with 1 second simulated processing delay).
 ```console
 kubectl delete -f deploy/trigger.yaml
 kubectl delete -f deploy/trigger2.yaml
-kubectl delete -f deploy/simple-service.yaml
+kubectl delete -f deploy/simple-service-no-response.yaml
 kubectl delete -f deploy/simple-service2.yaml
 kubectl delete -f deploy/container-source-broker.yaml
 kubectl delete -f deploy/broker.yaml

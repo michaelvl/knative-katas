@@ -13,10 +13,10 @@ kn service create simple --image ghcr.io/michaelvl/knative-katas --concurrency-l
 ```
 
 This creates the service using the `kn` tool. Alternatively you could create the
-Knative service using the file `deploy/simple-service.yaml`, which looks like
+Knative service using the file `deploy/simple-service-with-delay.yaml`, which looks like
 this:
 
-!INCLUDECODE "deploy/simple-service.yaml" (yaml)
+!INCLUDECODE "deploy/simple-service-with-delay.yaml" (yaml)
 
 The example application source can be found [here](src/simple/app.py) and we
 configure the application to simulate a processing delay of 1 second and tell

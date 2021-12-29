@@ -1,0 +1,21 @@
+apiVersion: flows.knative.dev/v1
+kind: Parallel
+metadata:
+  name: copy-events
+spec:
+  reply:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: event-logger
+  branches:
+    - subscriber:
+        ref:
+          apiVersion: serving.knative.dev/v1
+          kind: Service
+          name: simple
+    - subscriber:
+        ref:
+          apiVersion: serving.knative.dev/v1
+          kind: Service
+          name: simple2

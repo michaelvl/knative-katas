@@ -1,0 +1,86 @@
+!INCLUDE "markdown-source/meta.md"
+[//]: # (Tags: #knative-eventing #parallel)
+
+# Flows - Parallels and Branches
+
+This exercise will describe a higher-level construct for designing event
+flows. Constructs like source-to-sink or global broker/message-bus are either
+one-to-one or global hub-spoke constructs. Knative `Parallel` provide an
+modeling construct between the two.
+
+A `Parallel` is a Knative addressable that we can forward event to, and which
+will send a copy of the event to one or more services, i.e. we define parallel
+processing of the event. This is very much like creating a `Channel` and
+`Subscriptions` and a `Parallel` is basically just a higher level resource for
+managing these - with one exception. A `Parallel` allow filter services on each
+branch and this allows for if/else branch constructs in the event flow.
+
+
+
+```
+                          --- simple ----
+                         /               \
+emitter1 --- parallel ---                 --- event-logger
+                         \               /
+                          --- simple2 ---
+```
+
+```console
+kubectl apply -f deploy/simple-service.yaml
+kubectl apply -f deploy/simple2-service-response-type2.yaml
+```
+
+```console
+kubectl apply -f deploy/event-logger.yaml
+```
+
+```console
+stern "event-logger-.*" -c user-container
+```
+
+```console
+kubectl apply -f deploy/parallel.yaml
+```
+
+```console
+kubectl apply -f deploy/container-source-parallel.yaml
+```
+
+## Filtering
+
+```console
+kubectl apply -f deploy/container-source2-parallel.yaml
+```
+
+```
+emitter1 ---                  --- filter --- simple ----
+            \                /                          \
+             --- parallel ---                            --- event-logger
+            /                \                          /
+emitter2 ---                  --- filter --- simple2 ---
+```
+
+...four events every 10 seconds, with the `msg` field containing 'source1' and 'source 2'
+
+```console
+kubectl apply -f deploy/filter-services.yaml
+```
+
+```console
+kubectl delete -f deploy/parallel.yaml
+kubectl apply -f deploy/parallel-with-filters.yaml
+```
+
+
+
+## Cleanup
+
+```console
+kubectl delete -f deploy/simple-service.yaml
+kubectl delete -f deploy/simple2-service-response-type2.yaml
+kubectl delete -f deploy/event-logger.yaml
+kubectl delete -f deploy/container-source-parallel.yaml
+kubectl delete -f deploy/container-source2-parallel.yaml
+kubectl delete -f deploy/parallel.yaml
+kubectl delete -f deploy/parallel-with-filters.yaml
+```

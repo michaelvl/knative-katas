@@ -95,16 +95,12 @@ environment variable back to `200`. After this, the dead-letter service will no
 longer receive the event and eventually the dead-letter service POD will be
 terminated.
 
-## Sequence Delivery Errors
-
-TBD: Delivery errors in the middle of e.g. sequences
-
 ## Cleanup
 
 ```console
 kubectl delete -f deploy/dead-letter-sink.yaml
 kubectl delete -f deploy/trigger.yaml
-kubectl delete -f deploy/simple-service.yaml
+kubectl delete -f deploy/simple-service-no-response.yaml
 kubectl delete -f deploy/container-source-broker.yaml
 kubectl delete -f deploy/broker-dead-letter.yaml
 ```

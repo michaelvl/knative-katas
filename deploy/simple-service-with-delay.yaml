@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: simple2
+  name: simple
 spec:
   template:
     spec:
@@ -9,11 +9,5 @@ spec:
       containers:
       - image: ghcr.io/michaelvl/knative-katas@sha256:eb09ef8d1f5124c1e2348f4d4eeca8075b83e44f7c5157ea68c6c656f223dc98
         env:
-         - name: APP_HTTP_STATUS_CODE
-           value : "200"
          - name: APP_DELAY
            value : "1000"
-         - name: APP_EVENT_RESPONSE_TYPE
-           value : "type-example2"
-         - name: APP_EVENT_RESPONSE_SOURCE
-           value : "simple2-example"

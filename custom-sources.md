@@ -14,7 +14,7 @@ Knative sinks. The following sections describe how these work.
 To demonstrate `ContainerSource` and `SinkBinding` we setup an event receiver:
 
 ```console
-kubectl apply -f deploy/simple-service.yaml
+kubectl apply -f deploy/simple-service-with-delay.yaml
 ```
 
 Observe the log output from the event receiver:
@@ -46,7 +46,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
+      - image: ghcr.io/michaelvl/knative-katas@sha256:eb09ef8d1f5124c1e2348f4d4eeca8075b83e44f7c5157ea68c6c656f223dc98
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA
@@ -105,7 +105,7 @@ spec:
         app: event-emitter
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas:sha-bd3fa4c
+      - image: ghcr.io/michaelvl/knative-katas@sha256:eb09ef8d1f5124c1e2348f4d4eeca8075b83e44f7c5157ea68c6c656f223dc98
         name: event-emitter
         workingDir: /apps/event-emitter
         env:
@@ -160,7 +160,7 @@ management of the source, sink and binding between these.
 ## Cleanup
 
 ```console
-kubectl delete -f deploy/simple-service.yaml
+kubectl delete -f deploy/simple-service-with-delay.yaml
 kubectl delete -f deploy/container-source.yaml
 kubectl delete -f deploy/deployment-source.yaml
 kubectl delete -f deploy/sink-binding.yaml

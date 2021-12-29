@@ -13,7 +13,7 @@ service will log the received event and return a JSON structure with the event
 data. See also [the source of the service](src/simple/src/index.js):
 
 ```console
-kubectl apply -f deploy/simple-service.yaml
+kubectl apply -f deploy/simple-service-with-delay.yaml
 ```
 
 In a separate terminal, use the `stern` tool to display logs from instances of
@@ -131,5 +131,5 @@ Conditions:
 
 ```console
 kubectl delete -f deploy/ping-source.yaml
-kubectl delete -f deploy/simple-service.yaml
+kubectl delete -f deploy/simple-service-with-delay.yaml
 ```

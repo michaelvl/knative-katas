@@ -37,8 +37,10 @@ alias stern=scripts/stern.sh
 - [Custom Sources](custom-sources.md)
 - Channels and Subscriptions
 - [Brokers and Triggers](brokers-and-triggers.md)
-- Flows, Sequences and Parallels
-- [WIP: Delivery Errors - Dead Letter Sinks](delivery-errors.md)
+- [WIP: Flows - Parallels and Branches](parallels-and-branches.md)
+- Flows - Sequences
+- [Delivery Errors - Dead Letter Sinks](delivery-errors.md)
+- Delivery Errors in Flows
 
 ### Third Party Integrations
 

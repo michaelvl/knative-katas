@@ -1,7 +1,7 @@
 apiVersion: sources.knative.dev/v1
 kind: ContainerSource
 metadata:
-  name: event-emitter
+  name: event-emitter2
 spec:
   template:
     spec:
@@ -10,11 +10,13 @@ spec:
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA
-           value : '{"msg": "Hello from container source through broker!"}'
+           value : '{"msg": "Hello from container source 2 through parallel!"}'
          - name: APP_CRON_SCHEDULE
-           value : '*/5 * * * * *'
+           value : '*/10 * * * * *'
+         - name: APP_EVENT_SOURCE 
+           value : 'emitter2'
   sink:
     ref:
-      apiVersion: eventing.knative.dev/v1
-      kind: Broker
-      name: broker-a
+      apiVersion: flows.knative.dev/v1
+      kind: Parallel
+      name: copy-events
