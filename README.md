@@ -1,8 +1,10 @@
 # Knative Katas
 
-This repository contain exercises for [Knative](https://knative.dev), the
-Kubernetes platform for building event-driven and, kind-of, serverless
-workloads. Exercises assume access to a Kubernetes cluster with Knative.
+This repository contain exercises for [Knative](https://knative.dev), a platform
+for building event-driven serverless applications.
+
+Knative runs on top of Kubernetes and these exercises assume access to a
+Kubernetes cluster with Knative deployed.
 
 Since network access to clusters vary, exercises use the following environment
 variables to define how to access the cluster network. Adjust these as necessary
@@ -15,8 +17,8 @@ export KATAS_NAMESPACE=default
 ```
 
 Some of the exercises make use of the `kn` and `stern` tools. You can either
-install these locally, or use the scripts in this repository for container-based
-solutions:
+install these locally, or use the scripts in this repository for a
+container-based solution:
 
 ```console
 alias kn='scripts/kn.sh'
@@ -37,7 +39,7 @@ alias stern=scripts/stern.sh
 - [Custom Sources](custom-sources.md)
 - Channels and Subscriptions
 - [Brokers and Triggers](brokers-and-triggers.md)
-- [WIP: Flows - Parallels and Branches](parallels-and-branches.md)
+- [Flows - Parallels and Branches](parallels-and-branches.md)
 - Flows - Sequences
 - [Delivery Errors - Dead Letter Sinks](delivery-errors.md)
 - Delivery Errors in Flows
