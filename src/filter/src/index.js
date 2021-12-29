@@ -29,7 +29,7 @@ app.post('/', (req, res) => {
 	    res.status(200).send(message.body);
 	} else {
 	    console.log('Event filter status DISCARD');
-	    res.status(200).send();
+	    res.status(200).end();
 	}
     } catch(err) {
         console.error('Error', err);
