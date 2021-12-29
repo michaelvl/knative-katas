@@ -8,6 +8,9 @@ RUN cd /apps/simple && npm install
 COPY event-emitter /apps/event-emitter
 RUN cd /apps/event-emitter && npm install
 
+COPY filter /apps/filter
+RUN cd /apps/filter && npm install
+
 EXPOSE 8080
 WORKDIR /apps/simple
 
