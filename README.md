@@ -50,3 +50,8 @@ alias stern=scripts/stern.sh
 - Metrics with Prometheus and Grafana
 - Event Tracing with Jaeger
 - Apache Camel-K
+
+### Links
+
+- [Knative reference](https://knative.dev/docs/reference/)
+- [Istio katas](https://github.com/MichaelVL/istio-katas)
