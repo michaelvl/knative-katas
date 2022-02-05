@@ -9,7 +9,7 @@ Knative serving.
 First, create a Knative service.
 
 ```console
-kn service create simple --image ghcr.io/michaelvl/knative-katas --concurrency-limit=1 --env APP_DELAY=1
+kn service create simple --image ghcr.io/michaelvl/knative-katas --concurrency-limit=1 --env APP_DELAY=1000
 ```
 
 This creates the service using the `kn` tool. Alternatively you could create the
