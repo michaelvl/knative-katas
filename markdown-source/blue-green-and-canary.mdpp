@@ -116,6 +116,18 @@ After this, we will see in the load generator statistics, that approximately 10%
 of the traffic is routed to the new revision. I.e. this is a canary pattern
 release of a new version.
 
+## Native Resource Management
+
+The Knative resources can also be managed without the `kn` tool, e.g. through a
+GitOps tools using the Knative CRDs. The following commands show the content of
+the revisions and routes we have created in addition to the Knative service:
+
+```console
+kubectl get revisions
+kubectl get revision simple-00002 -o yaml
+kubectl get route simple -o yaml
+```
+
 ## Tagged Revisions Can be Accessed Directly
 
 Next we create two new revisions.
