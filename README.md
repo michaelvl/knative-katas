@@ -51,6 +51,10 @@ alias stern=scripts/stern.sh
 - Event Tracing with Jaeger
 - Apache Camel-K
 
+### Event Delivery Models Overview
+
+![Delivery Models](images/event-delivery-models.png)
+
 ### Links
 
 - [Knative reference](https://knative.dev/docs/reference/)

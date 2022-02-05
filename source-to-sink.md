@@ -7,14 +7,36 @@
 This exercise demonstrates the most basic Knative event setup with a single event producer and a
 single consumer - aka. 'Source' and 'Sink'.
 
-## Knative Sources
+![Source to Sink](images/source-to-sink.png)
 
-First, create a Knative service that will serve as the receiver of events. The
-service will log the received event and return a JSON structure with the event
-data. See also [the source of the service](src/simple/src/index.js):
+## Knative Service (Sink)
+
+First, create a Knative service that will serve as the receiver of events,
+i.e. a Sink in Knative terminology. The service will log the received event and
+return a JSON structure with the event data. See also [the source of the
+service](src/simple/src/index.js):
 
 ```console
 kubectl apply -f deploy/simple-service-with-delay.yaml
+```
+
+The YAML of the service looks like this:
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: simple
+spec:
+  template:
+    spec:
+      containerConcurrency: 1
+      containers:
+      - image: ghcr.io/michaelvl/knative-katas@sha256:eb09ef8d1f5124c1e2348f4d4eeca8075b83e44f7c5157ea68c6c656f223dc98
+        env:
+         - name: APP_DELAY
+           value : "1000"
+
 ```
 
 In a separate terminal, use the `stern` tool to display logs from instances of
@@ -24,6 +46,11 @@ logs.
 ```console
 stern "simple-.*" -c user-container
 ```
+
+## Knative Sources
+
+The sink is not yet receiving any events. We either need to send events manually
+or create a Knative source to send events to our service.
 
 Test the deployed service by sending a single event to it. The input event data
 sent to the service is stored in the `input` field of the response from the

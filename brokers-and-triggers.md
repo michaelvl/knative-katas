@@ -8,6 +8,8 @@ This exercise demonstrates Knative eventing brokers and triggers. These are the
 basic components used to build a message bus for event distribution and define
 filtering on which events applications should receive.
 
+![Broker and Triggers](images/broker-and-triggers.png)
+
 A basic Knative `Broker` (basically a message bus) can be defined with the
 following resource manifest:
 
