@@ -178,7 +178,7 @@ Note, that only a single tag can be assigned to a revision.
 Next, use the following command to address the tagger revsion:
 
 ```console
-time curl -s -X POST $KATAS_PROTOCOL://test-simple.$KATAS_NAMESPACE.$KATAS_DOMAIN
+time curl -s -X POST -H "content-type: application/json" -H "ce-specversion: 1.0" -H "ce-source: curl" -H "ce-type: example" -H "ce-id: 123456-123456" $KATAS_PROTOCOL://test-simple.$KATAS_NAMESPACE.$KATAS_DOMAIN | jq .
 ```
 
 Notice also, that the statistics output from the load generator only shows
