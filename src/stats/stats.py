@@ -9,8 +9,6 @@ use_ncurses = True
 def show_data(stdscr, data, start):
     if use_ncurses:
         height, width = stdscr.getmaxyx()
-        stdscr.clear()
-        stdscr.refresh()
     else:
         print('-'*40)
 
@@ -27,18 +25,22 @@ def show_data(stdscr, data, start):
     def output(st, ln):
         if use_ncurses:
             stdscr.addstr(ln, 0, st)
-            stdscr.refresh()
         else:
             print(st)
         
+    bar_width = width-52 # See field format below
     for k in sorted(data.keys()):
         v = data[k]
         pcnt = 100.0*v/float(total_cnt)
         bar_rel = float(v)/max_val
-        bar = ':'*int((width-54)*bar_rel)
+        bar_ch = int(bar_width*bar_rel)
+        bar = ':'*bar_ch + ' '*(bar_width-bar_ch)
         output('{:4.1f}% {:4} {:40} {}'.format(pcnt, v, k, bar), ln)
         ln += 1
     output('{} requests, {:.1f} requests/s, {} buckets.'.format(total_cnt, (now-start).total_seconds(), ln), ln)
+    for padln in range(ln+1,height-1):
+        output(' '*width, padln)
+    stdscr.refresh()
 
 def read_input(stdscr):
     start = None
