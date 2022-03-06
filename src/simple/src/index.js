@@ -13,6 +13,8 @@ const http_status_code = process.env.APP_HTTP_STATUS_CODE || 200;
 const event_resp_type = process.env.APP_EVENT_RESPONSE_TYPE || 'type-example';
 const event_resp_source = process.env.APP_EVENT_RESPONSE_SOURCE || 'simple-example';
 const discard_response = process.env.APP_DISCARD_RESPONSE;
+const http_log = process.env.APP_HTTP_LOG || 0;
+const event_log = process.env.APP_EVENT_LOG || 0;
 
 const app = express();
 app.use(express.json());
@@ -29,8 +31,15 @@ function sleep(ms) {
 }
 
 app.post('/', (req, res) => {
+    if (http_log) {
+	console.log("HTTP headers:", req.headers);
+	console.log("HTTP body:", req.body);
+    }
     try {
         let event = HTTP.toEvent({ headers: req.headers, body: req.body })
+	if (event_log) {
+	    console.log('Event:', event)
+	}
         console.log('Event version:', event.specversion, 'type:', event.type, 'id:', event.id);
         console.log('Data:', event.data);
 
