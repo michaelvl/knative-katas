@@ -44,6 +44,7 @@ alias stern=scripts/stern.sh
 - [Delivery Errors - Dead Letter Sinks](delivery-errors.md)
 - Delivery Errors in Flows
 - [WIP: Kafka Source and Source](kafka-sink-source.md)
+- [WIP: Kafka Broker](kafka-broker.md)
 
 ### Third Party Integrations
 
@@ -55,7 +56,6 @@ alias stern=scripts/stern.sh
 ### Misc
 
 - [WIP: Debugging Techniques](debugging.md)
-
 
 ### Event Delivery Models Overview
 

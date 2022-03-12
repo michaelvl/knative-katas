@@ -27,7 +27,7 @@ spec:
     spec:
       containerConcurrency: 1
       containers:
-      - image: ghcr.io/michaelvl/knative-katas@sha256:4b3d49ac8ffe76db79415162fcf074b6ed9d8bebb0d2d168df2bddc458dbd56f
+      - image: ghcr.io/michaelvl/knative-katas@sha256:67ec9c1f7aed35878feb071c206d0aa56a2c7aac0826cd1eca1301f595ac8bd9
         env:
          - name: APP_DELAY
            value : "1000"

@@ -20,7 +20,7 @@ kubectl create deploy multitool --image wbitt/network-multitool
 ```
 
 ```console
-kubectl exec -it `kubectl get pods -l app=multitool -o=jsonpath='{.items[0].metadata.name}'` -- sh
+kubectl exec -it `kubectl get pods -l app=multitool -o=jsonpath='{.items[0].metadata.name}'` -- bash
 ```
 
 ```
