@@ -1,0 +1,29 @@
+[//]: # (Copyright, Michael Vittrup Larsen)
+[//]: # (Origin: https://github.com/MichaelVL/knative-katas)
+[//]: # (Tags: #knative-eventing #kafka #kafka-sink #kafka-source)
+
+# Kafka Sources
+
+```console
+kubectl apply -f deploy/simple-service-no-response.yaml
+```
+
+```console
+stern "simple-.*" -c user-container
+```
+
+```console
+kubectl apply -f deploy/kafka-topic-source.yaml
+```
+
+```console
+k create deploy multitool --image wbitt/network-multitool
+```
+
+```console
+kubectl exec -it <POD> -- sh
+```
+
+```
+curl -v -X POST http://kafka-sink-ingress.knative-eventing.svc.cluster.local/default/kafka-sink -H 'Ce-Id: 1234567890-1234567890' -H 'Ce-Specversion: 1.0' -H 'Ce-Type: dev.knative.samples.test' -H 'Ce-Source: xxx' -H 'Content-Type: application/json' -d '{"msg":"Hello World"}'
+```

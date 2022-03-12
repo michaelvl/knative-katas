@@ -43,6 +43,7 @@ alias stern=scripts/stern.sh
 - Flows - Sequences
 - [Delivery Errors - Dead Letter Sinks](delivery-errors.md)
 - Delivery Errors in Flows
+- [WIP: Kafka Source and Source](kafka-sink-source.md)
 
 ### Third Party Integrations
 
@@ -50,6 +51,11 @@ alias stern=scripts/stern.sh
 - Metrics with Prometheus and Grafana
 - Event Tracing with Jaeger
 - Apache Camel-K
+
+### Misc
+
+- [WIP: Debugging Techniques](debugging.md)
+
 
 ### Event Delivery Models Overview
 
