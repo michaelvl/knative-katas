@@ -7,7 +7,7 @@ spec:
     spec:
       containerConcurrency: 1
       containers:
-      - image: ghcr.io/michaelvl/knative-katas@sha256:cf45b93f2b1ac2640a5e1366f78d1a1a6e1d3a575460c7e99b1aa5e35c26607e
+      - image: ghcr.io/michaelvl/knative-katas@sha256:4b3d49ac8ffe76db79415162fcf074b6ed9d8bebb0d2d168df2bddc458dbd56f
         env:
          - name: APP_HTTP_STATUS_CODE
            value : "200"

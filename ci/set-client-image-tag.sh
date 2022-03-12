@@ -21,7 +21,12 @@ echo "Using digest: $DIGEST"
 #IMAGE_TAG=":$TAG"
 IMAGE_TAG="@$DIGEST"
 
+FILES=""
+
 for m in deploy/*.yaml; do
     echo "Updating $m"
     sed -i -E "s#(^\s+-\s+image\:\s+$IMAGE)[\:@]{1}.*#\1$IMAGE_TAG#" $m
+    FILES="$FILES $m"
 done
+
+echo "Updated: $FILES"
