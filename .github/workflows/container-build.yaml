@@ -7,9 +7,7 @@ on:
       - feature/**
     paths:
       - .github/**
-      - src/simple/**
-      - src/event-emitter/**
-      - src/filter/**
+      - src/**
 
 permissions:
   contents: read
