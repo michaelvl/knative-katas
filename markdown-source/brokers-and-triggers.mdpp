@@ -1,5 +1,5 @@
 !INCLUDE "markdown-source/meta.md"
-[//]: # (Tags: #knative-eventing #brokers #triggers #dead-letter #dead-letter-sink)
+[//]: # (Tags: #knative-eventing #brokers #triggers)
 
 # Brokers and Triggers
 
