@@ -14,4 +14,4 @@ RUN cd /apps/filter && npm install
 EXPOSE 8080
 WORKDIR /apps/simple
 
-CMD [ "npm", "run", "watch" ]
+CMD [ "node", "src/index.js" ]
