@@ -2,7 +2,6 @@ const os = require('os');
 const process = require('process');
 const express = require('express');
 const { HTTP, CloudEvent } = require('cloudevents');
-const bodyParser = require('body-parser')
 
 const hostname = os.hostname();
 
@@ -17,7 +16,6 @@ const http_log = process.env.APP_HTTP_LOG || 0;
 const event_log = process.env.APP_EVENT_LOG || 0;
 
 const app = express();
-app.use(express.json());
 
 process.on('SIGTERM', () => {
     console.info("Interrupted")
@@ -29,6 +27,20 @@ function sleep(ms) {
         setTimeout(resolve, ms);
     });
 }
+
+app.use((req, res, next) => {
+  let data = "";
+
+  req.setEncoding("utf8");
+  req.on("data", function (chunk) {
+    data += chunk;
+  });
+
+  req.on("end", function () {
+    req.body = data;
+    next();
+  });
+});
 
 app.post('/', (req, res) => {
     if (http_log) {
