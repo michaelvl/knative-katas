@@ -12,17 +12,26 @@ stern "simple-.*" -c user-container
 ```
 
 ```console
-kubectl apply -f deploy/kafka-topic-source.yaml
+kubectl apply -f deploy/kafka-topic-sink-source.yaml
 ```
 
 ```console
-k create deploy multitool --image wbitt/network-multitool
+kubectl create deploy multitool --image wbitt/network-multitool
 ```
 
 ```console
-kubectl exec -it <POD> -- sh
+kubectl exec -it `kubectl get pods -l app=multitool -o=jsonpath='{.items[0].metadata.name}'` -- sh
 ```
 
 ```
-curl -v -X POST http://kafka-sink-ingress.knative-eventing.svc.cluster.local/default/kafka-sink -H 'Ce-Id: 1234567890-1234567890' -H 'Ce-Specversion: 1.0' -H 'Ce-Type: dev.knative.samples.test' -H 'Ce-Source: xxx' -H 'Content-Type: application/json' -d '{"msg":"Hello World"}'
+curl -v -X POST http://kafka-sink-ingress.knative-eventing.svc.cluster.local/default/kafka-sink -H 'Ce-Id: 1234567890-1234567890' -H 'Ce-Specversion: 1.0' -H 'Ce-Type: dev.knative.samples.test' -H 'Ce-Source: multitool-curl' -H 'Content-Type: application/json' -d '{"msg":"Hello World"}'
+```
+
+
+## Clean up
+
+```console
+kubectl delete -f deploy/simple-service-no-response.yaml
+kubectl delete -f deploy/kafka-topic-sink-source.yaml
+kubectl delete deploy multitool
 ```
