@@ -22,8 +22,6 @@ cron.schedule(cron_schedule, () => {
     const ce = new CloudEvent({ type: event_type,
                                 source: event_source,
                                 data,
-                                // https://github.com/cloudevents/spec/blob/main/cloudevents/extensions/partitioning.md
-                                ...(event_partition_key && {'partitionKey': event_partition_key})
                               });
     const message = HTTP.binary(ce); // Or HTTP.structured(ce)
 
@@ -32,6 +30,9 @@ cron.schedule(cron_schedule, () => {
         method: "post",
         url: sink_url,
         data: message.body,
-        headers: message.headers,
+        headers: {...message.headers,
+		  // https://github.com/cloudevents/spec/blob/main/cloudevents/extensions/partitioning.md
+                  ...(event_partition_key!='' && {'ce-partitionKey': event_partition_key})
+		 }
     });
 });
