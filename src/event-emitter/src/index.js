@@ -32,7 +32,7 @@ cron.schedule(cron_schedule, () => {
         data: message.body,
         headers: {...message.headers,
 		  // https://github.com/cloudevents/spec/blob/main/cloudevents/extensions/partitioning.md
-                  ...(event_partition_key!='' && {'ce-partitionKey': event_partition_key})
+                  ...(event_partition_key && {'ce-partitionKey': event_partition_key})
 		 }
     });
 });
