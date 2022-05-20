@@ -29,4 +29,5 @@ for m in deploy/*.yaml; do
     FILES="$FILES $m"
 done
 
-echo "Updated: $FILES"
+echo $FILES > _tmp_image_tag_update
+echo "Updated file list saved in _tmp_image_tag_update"

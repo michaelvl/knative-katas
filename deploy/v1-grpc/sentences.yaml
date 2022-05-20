@@ -1,0 +1,28 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  labels:
+    app: sentences
+    mode: sentence
+  name: sentences
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/target: "1"
+    spec:
+      containers:
+      - image: ghcr.io/michaelvl/istio-katas@sha256:430d3a01a502c2b13af2619ad41f2247e6e46282e1c100db4f27c917b2867555
+        name: sentences
+        args:
+        - /usr/src/app-grpc/sentences.py
+        env:
+        - name: "SENTENCE_MODE"
+          value: "sentence"
+        - name: "SENTENCE_AGE_SVC_URL"
+          value: "age.default.svc.cluster.local:80"
+        - name: "SENTENCE_NAME_SVC_URL"
+          value: "name.default.svc.cluster.local:80"
+        ports:
+        - name: http1
+          containerPort: 5000

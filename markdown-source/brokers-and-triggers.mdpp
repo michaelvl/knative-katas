@@ -37,7 +37,7 @@ Next we create a service which are intended to receive events:
 kubectl apply -f deploy/simple-service-no-response.yaml
 ```
 
-The source will emit an event every 5 seconds, however (try using `kubectl logs
+The source will emit an event every second, however (try using `kubectl logs
 -f` on the `event-emitter-deployment-xxx` POD), if we observe logs from the
 `simple` service, we do not yet see any events:
 

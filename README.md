@@ -21,7 +21,7 @@ install these locally, or use the scripts in this repository for a
 container-based solution:
 
 ```console
-alias kn='scripts/kn.sh'
+alias kn=scripts/kn.sh
 alias stern=scripts/stern.sh
 ```
 
@@ -43,19 +43,20 @@ alias stern=scripts/stern.sh
 - Flows - Sequences
 - [Delivery Errors - Dead Letter Sinks](delivery-errors.md)
 - Delivery Errors in Flows
-- [WIP: Kafka Source and Source](kafka-sink-source.md)
-- [WIP: Kafka Broker](kafka-broker.md)
+- [:construction: WIP: Kafka Source and Source](kafka-sink-source.md)
+- [:construction: WIP: Kafka Broker](kafka-broker.md)
+- [:construction: WIP: Kafka Partitions, Cloudevent `partitionKey` and Scalability](kafka-partitions.md)
+- [:construction: WIP: Using gRPC](using-grpc.md)
 
 ### Third Party Integrations
 
 - Third Party Sources
 - Metrics with Prometheus and Grafana
 - Event Tracing with Jaeger
-- Apache Camel-K
 
 ### Misc
 
-- [WIP: Debugging Techniques](debugging.md)
+- [:construction: WIP: Debugging Techniques](debugging.md)
 
 ### Event Delivery Models Overview
 
@@ -64,4 +65,5 @@ alias stern=scripts/stern.sh
 ### Links
 
 - [Knative reference](https://knative.dev/docs/reference/)
+- [Knative Runtime Contract](https://github.com/knative/specs/blob/main/specs/serving/runtime-contract.md)
 - [Istio katas](https://github.com/MichaelVL/istio-katas)

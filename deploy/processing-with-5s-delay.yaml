@@ -1,12 +1,15 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: event-logger
+  name: processor-with-delay
 spec:
   template:
     spec:
+      containerConcurrency: 1
       containers:
       - image: ghcr.io/michaelvl/knative-katas@sha256:24a31c707d9997934cc27631a24b189ea8aa5bba59037d259f2de11d5ed32bb3
         env:
-         - name: APP_DISCARD_RESPONSE
-           value : "1"
+         - name: APP_DELAY
+           value : "5000"
+         - name: APP_EVENT_RESPONSE_TYPE
+           value: "type-example3"

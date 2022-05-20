@@ -1,0 +1,33 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: trigger1
+  #annotations:
+  #  kafka.eventing.knative.dev/delivery.order: ordered
+spec:
+  broker: broker-a
+  filter:
+    attributes:
+      type: type-example
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: processor-with-delay
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: trigger2
+  #annotations:
+  #  kafka.eventing.knative.dev/delivery.order: ordered
+spec:
+  broker: broker-a
+  filter:
+    attributes:
+      type: type-example3
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: simple

@@ -39,13 +39,15 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/michaelvl/knative-katas@sha256:67ec9c1f7aed35878feb071c206d0aa56a2c7aac0826cd1eca1301f595ac8bd9
+      - image: ghcr.io/michaelvl/knative-katas@sha256:24a31c707d9997934cc27631a24b189ea8aa5bba59037d259f2de11d5ed32bb3
         workingDir: /apps/event-emitter
         env:
          - name: APP_DATA
-           value : '{"msg": "Hello from container source through broker!"}'
+           value: '{"msg": "Hello from container source through broker!"}'
+         - name: APP_EVENT_TYPE
+           value: 'type-example'
          - name: APP_CRON_SCHEDULE
-           value : '*/5 * * * * *'
+           value: '*/1 * * * * *'
   sink:
     ref:
       apiVersion: eventing.knative.dev/v1
@@ -66,7 +68,7 @@ Next we create a service which are intended to receive events:
 kubectl apply -f deploy/simple-service-no-response.yaml
 ```
 
-The source will emit an event every 5 seconds, however (try using `kubectl logs
+The source will emit an event every second, however (try using `kubectl logs
 -f` on the `event-emitter-deployment-xxx` POD), if we observe logs from the
 `simple` service, we do not yet see any events:
 
