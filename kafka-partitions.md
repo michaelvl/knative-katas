@@ -4,6 +4,9 @@
 
 # Kafka Partitions, Cloudevent `partitionKey` and Scalability
 
+See also the specification for the cloudevents [partitioning
+extension](https://github.com/cloudevents/spec/blob/main/cloudevents/extensions/partitioning.md)
+
 Create the broker:
 
 ```console
