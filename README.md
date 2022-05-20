@@ -32,6 +32,7 @@ alias stern=scripts/stern.sh
 - [Blue/green and Canary Deployments](blue-green-and-canary.md)
 - Header-based Revision Routing
 - Configuring and Optimizing Autoscaling
+- [:construction: WIP: Using gRPC](using-grpc.md)
 
 ### Knative Eventing
 
@@ -46,7 +47,6 @@ alias stern=scripts/stern.sh
 - [:construction: WIP: Kafka Source and Source](kafka-sink-source.md)
 - [:construction: WIP: Kafka Broker](kafka-broker.md)
 - [:construction: WIP: Kafka Partitions, Cloudevent `partitionKey` and Scalability](kafka-partitions.md)
-- [:construction: WIP: Using gRPC](using-grpc.md)
 
 ### Third Party Integrations
 

@@ -5,7 +5,7 @@
 # Using gRPC
 
 This exercise demonstrates the use of Knative eventing with gRPC, and we will
-demonstrate it using the [sentences](https://github.com/MichaelVL/istio-katas)
+demonstrate it using the [sentences](https://github.com/MichaelVL/istio-katas/sentences-app/app-grpc)
 application from the [Istio-katas](https://github.com/MichaelVL/istio-katas).
 
 The sentences application consists of a frontend `sentences` and two backends,
