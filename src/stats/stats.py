@@ -37,7 +37,7 @@ def show_data(stdscr, data, start):
         bar = ':'*bar_ch + ' '*(bar_width-bar_ch)
         output('{:4.1f}% {:4} {:40} {}'.format(pcnt, v, k, bar), ln)
         ln += 1
-    output('{} requests, {:.1f} requests/s, {} buckets.'.format(total_cnt, (now-start).total_seconds(), ln), ln)
+    output('{} requests, {:.1f} requests/s, {} buckets.'.format(total_cnt, total_cnt/(now-start).total_seconds(), ln), ln)
     for padln in range(ln+1,height-1):
         output(' '*width, padln)
     stdscr.refresh()
