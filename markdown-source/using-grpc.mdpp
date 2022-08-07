@@ -10,18 +10,38 @@ application from the [Istio-katas](https://github.com/MichaelVL/istio-katas).
 The sentences application consists of a frontend `sentences` and two backends,
 `age` and `name`. The frontend communicates with the backends using gRPC.
 
+
+!INCLUDECODE "deploy/v1-grpc/sentences.yaml" (yaml)
+
+!INCLUDECODE "deploy/v1-grpc/age.yaml" (yaml)
+
+Note, that the `age` service specifies a port name of `h2c` whereas the `sentences` service specifies `http1`
+
 Deploy the three services:
 
 ```console
 kubectl apply -f deploy/v1-grpc
 ```
 
+```console
+watch -n 0.5 kubectl get po
+```
+
 Next, run the following command to request a sentence:
 
 ```console
-curl $KATAS_PROTOCOL://sentences.$KATAS_NAMESPACE.$KATAS_DOMAIN
+time curl $KATAS_PROTOCOL://sentences.$KATAS_NAMESPACE.$KATAS_DOMAIN
 ```
 
+Next, run the following command to generate traffic from 10 clients using the
+[k6](https://github.com/grafana/k6) load test tool. Note how the load scenario
+starts with a single user, i.e. Knative will eventually scale each of the
+services to a single instance. After a while, the number of users are rapidly
+scaled up to 10 and we will observe Knative scaling accordingly.
+
+```console
+k6 run --vus 1 --stage 1m40s:1,4s:10,2m:10 scripts/k6-load-test.js
+```
 
 
 

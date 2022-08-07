@@ -12,7 +12,7 @@ spec:
         autoscaling.knative.dev/target: "1"
     spec:
       containers:
-      - image: ghcr.io/michaelvl/istio-katas@sha256:430d3a01a502c2b13af2619ad41f2247e6e46282e1c100db4f27c917b2867555
+      - image: ghcr.io/michaelvl/istio-katas@sha256:4a26235a20b67c1a0650da8ad28d901a9942af52ab9dad09f283c2142f256d4c
         name: age
         args:
         - /usr/src/app-grpc/sentences.py
